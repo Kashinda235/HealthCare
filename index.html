@@ -3,749 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthHub - Your Personal Health Companion</title>
+    <title>NityaNadi - Your Personal Health Companion</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0A4D68;
-            --primary-light: #088395;
-            --accent: #05BFDB;
-            --accent-warm: #00FFCA;
-            --bg-main: #F8FFFE;
-            --bg-card: #FFFFFF;
-            --text-primary: #1A1A1A;
-            --text-secondary: #6B7280;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --border: #E5E7EB;
-            --shadow-sm: 0 2px 8px rgba(10, 77, 104, 0.04);
-            --shadow-md: 0 4px 16px rgba(10, 77, 104, 0.08);
-            --shadow-lg: 0 8px 32px rgba(10, 77, 104, 0.12);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #F8FFFE 0%, #EDF7F6 100%);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* Header & Navigation */
-        header {
-            background: var(--bg-card);
-            box-shadow: var(--shadow-md);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            animation: slideDown 0.4s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Space Mono', monospace;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-light), var(--accent));
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        /* Main Container */
-        main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Dashboard Grid */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            animation: fadeIn 0.6s ease-out 0.2s both;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-light), var(--accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .stat-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .stat-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .stat-card:nth-child(1) .stat-icon { background: linear-gradient(135deg, #0A4D68 0%, #088395 100%); color: white; }
-        .stat-card:nth-child(2) .stat-icon { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); color: white; }
-        .stat-card:nth-child(3) .stat-icon { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); color: white; }
-        .stat-card:nth-child(4) .stat-icon { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); color: white; }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        /* Sections */
-        .section {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-md);
-            animation: fadeIn 0.6s ease-out both;
-        }
-
-        .section:nth-child(even) {
-            animation-delay: 0.1s;
-        }
-
-        .section:nth-child(odd) {
-            animation-delay: 0.2s;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 28px;
-            background: linear-gradient(180deg, var(--primary-light), var(--accent));
-            border-radius: 2px;
-        }
-
-        /* Forms */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        label {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-        }
-
-        input, select, textarea {
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--bg-main);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 4px rgba(8, 131, 149, 0.1);
-            background: white;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.875rem 1.75rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Outfit', sans-serif;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(10, 77, 104, 0.3);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
-            color: var(--primary);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td {
-            padding: 1rem 1.5rem;
-            text-align: left;
-        }
-
-        th {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-        }
-
-        tr {
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s ease;
-        }
-
-        tr:hover {
-            background: var(--bg-main);
-        }
-
-        /* Vitals Monitor */
-        .vitals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .vital-card {
-            background: linear-gradient(135deg, var(--bg-main) 0%, white 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .vital-card:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
-        }
-
-        .vital-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            font-family: 'Space Mono', monospace;
-            margin: 0.5rem 0;
-        }
-
-        .vital-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .vital-status {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .status-normal { background: #D1FAE5; color: var(--success); }
-        .status-warning { background: #FEF3C7; color: var(--warning); }
-        .status-critical { background: #FEE2E2; color: var(--danger); }
-
-        /* Chat Interface */
-        .chat-container {
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-main);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid var(--border);
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .message {
-            max-width: 75%;
-            padding: 1rem 1.25rem;
-            border-radius: 16px;
-            animation: messageSlide 0.3s ease-out;
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message-bot {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .message-user {
-            background: var(--accent);
-            color: var(--primary);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-input-container {
-            padding: 1rem;
-            background: white;
-            border-top: 2px solid var(--border);
-            display: flex;
-            gap: 1rem;
-        }
-
-        .chat-input {
-            flex: 1;
-        }
-
-        /* OCR Upload */
-        .upload-area {
-            border: 3px dashed var(--border);
-            border-radius: 12px;
-            padding: 3rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background: var(--bg-main);
-        }
-
-        .upload-area:hover {
-            border-color: var(--accent);
-            background: white;
-            transform: scale(1.01);
-        }
-
-        .upload-area.drag-over {
-            border-color: var(--accent);
-            background: linear-gradient(135deg, rgba(5, 191, 219, 0.05) 0%, rgba(0, 255, 202, 0.05) 100%);
-        }
-
-        .upload-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: var(--primary-light);
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 0.375rem 0.875rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .badge-scheduled { background: #DBEAFE; color: #1E40AF; }
-        .badge-completed { background: #D1FAE5; color: #065F46; }
-        .badge-cancelled { background: #FEE2E2; color: #991B1B; }
-        .badge-active { background: #D1FAE5; color: var(--success); }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .tab {
-            padding: 1rem 2rem;
-            background: transparent;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-        }
-
-        .tab:hover {
-            color: var(--primary);
-        }
-
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--accent);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Prescription Card */
-        .prescription-card {
-            background: linear-gradient(135deg, white 0%, var(--bg-main) 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary-light);
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .prescription-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .medication-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .dosage {
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 1.5rem;
-            }
-
-            .message {
-                max-width: 90%;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Success Message */
-        .success-message {
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            color: #065F46;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            border-left: 4px solid var(--success);
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* AI Summary Card */
-        .ai-summary {
-            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #6366F1;
-            margin-top: 1rem;
-        }
-
-        .ai-summary-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            color: #4F46E5;
-            margin-bottom: 0.75rem;
-        }
-
-        /* File Preview */
-        .file-preview {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            border: 2px solid var(--border);
-        }
-
-        .file-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .file-size {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">HealthHub</div>
+            <div class="logo">NityaNadi</div>
             <ul class="nav-links">
-                <li><a href="#dashboard" class="active">My Dashboard</a></li>
-                <li><a href="#appointments">My Appointments</a></li>
-                <li><a href="#health">Health Tracker</a></li>
-                <li><a href="#reports">My Reports</a></li>
-                <li><a href="#assistant">Health Assistant</a></li>
+                <li><a href="#" onclick="event.preventDefault(); switchTabByName('profile')" class="active">My Dashboard</a></li>
+                <li><a href="#" onclick="event.preventDefault(); switchTabByName('appointments')">My Appointments</a></li>
+                <li><a href="#" onclick="event.preventDefault(); switchTabByName('vitals')">Health Tracker</a></li>
+                <li><a href="#" onclick="event.preventDefault(); switchTabByName('reports')">My Reports</a></li>
+                <li><a href="#" onclick="event.preventDefault(); switchTabByName('assistant')">Talk to Coco</a></li>
             </ul>
         </nav>
     </header>
@@ -780,7 +51,7 @@
             <button class="tab active" onclick="switchTab('profile')">My Profile</button>
             <button class="tab" onclick="switchTab('appointments')">Book Appointment</button>
             <button class="tab" onclick="switchTab('vitals')">Health Tracker</button>
-            <button class="tab" onclick="switchTab('assistant')">Health Assistant</button>
+            <button class="tab" onclick="switchTab('assistant')">Talk to Coco</button>
             <button class="tab" onclick="switchTab('prescriptions')">Prescriptions</button>
             <button class="tab" onclick="switchTab('reports')">My Reports</button>
         </div>
@@ -1026,47 +297,243 @@
                         <div class="vital-label">Heart Rate</div>
                         <div class="vital-value" id="heartRate">72</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">BPM</div>
+                        
+                        <!-- Heart Rate Graph -->
+                        <div style="margin-top: 1rem; height: 60px; position: relative; overflow: hidden;">
+                            <svg width="100%" height="60" style="display: block;">
+                                <defs>
+                                    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#EF4444;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#EF4444;stop-opacity:0" />
+                                    </linearGradient>
+                                </defs>
+                                <path id="heartPath" fill="url(#heartGradient)" stroke="#EF4444" stroke-width="2" />
+                            </svg>
+                        </div>
+                        
                         <span class="vital-status status-normal">Normal</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: 2 mins ago</div>
                     </div>
+                    
                     <div class="vital-card">
                         <div class="vital-label">Blood Pressure</div>
                         <div class="vital-value" id="bloodPressure" style="font-size: 1.5rem;">120/80</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">mmHg</div>
+                        
+                        <!-- BP Gauge -->
+                        <div style="margin-top: 1rem; position: relative; height: 60px;">
+                            <svg width="100%" height="60" viewBox="0 0 200 60">
+                                <!-- Background arc -->
+                                <path d="M 20,55 A 80,80 0 0,1 180,55" fill="none" stroke="#E5E7EB" stroke-width="8" stroke-linecap="round"/>
+                                <!-- Colored sections -->
+                                <path d="M 20,55 A 80,80 0 0,1 70,20" fill="none" stroke="#10B981" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 70,20 A 80,80 0 0,1 130,20" fill="none" stroke="#F59E0B" stroke-width="8" stroke-linecap="round"/>
+                                <path d="M 130,20 A 80,80 0 0,1 180,55" fill="none" stroke="#EF4444" stroke-width="8" stroke-linecap="round"/>
+                                <!-- Indicator needle -->
+                                <line id="bpNeedle" x1="100" y1="55" x2="100" y2="15" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" style="transform-origin: 100px 55px; transform: rotate(-30deg);"/>
+                                <circle cx="100" cy="55" r="5" fill="var(--primary)"/>
+                            </svg>
+                        </div>
+                        
                         <span class="vital-status status-normal">Normal</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: 5 mins ago</div>
                     </div>
+                    
                     <div class="vital-card">
                         <div class="vital-label">Temperature</div>
                         <div class="vital-value" id="temperature">98.6</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">°F</div>
+                        
+                        <!-- Temperature Thermometer -->
+                        <div style="margin-top: 1rem; position: relative; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 20px; height: 100%; background: linear-gradient(to bottom, #E5E7EB 0%, #E5E7EB 30%, var(--danger) 30%, var(--danger) 100%); border-radius: 10px; position: relative;">
+                                <div id="tempFill" style="position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(to top, #EF4444, #F59E0B, #10B981); border-radius: 10px; transition: height 0.5s ease;"></div>
+                            </div>
+                            <div style="margin-left: 1rem; font-size: 0.75rem; color: var(--text-secondary);">
+                                <div>104°F</div>
+                                <div style="margin-top: 1rem;">98.6°F</div>
+                                <div style="margin-top: 1rem;">95°F</div>
+                            </div>
+                        </div>
+                        
                         <span class="vital-status status-normal">Normal</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: 1 hour ago</div>
                     </div>
+                    
                     <div class="vital-card">
                         <div class="vital-label">Oxygen Saturation</div>
                         <div class="vital-value" id="oxygenSat">98</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">%</div>
+                        
+                        <!-- Circular Progress -->
+                        <div style="margin-top: 1rem; position: relative; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="60" height="60" style="transform: rotate(-90deg);">
+                                <circle cx="30" cy="30" r="25" fill="none" stroke="#E5E7EB" stroke-width="6"/>
+                                <circle id="o2Circle" cx="30" cy="30" r="25" fill="none" stroke="#10B981" stroke-width="6" 
+                                    stroke-dasharray="157" stroke-dashoffset="15.7" stroke-linecap="round"
+                                    style="transition: stroke-dashoffset 0.5s ease;"/>
+                            </svg>
+                        </div>
+                        
                         <span class="vital-status status-normal">Normal</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: 3 mins ago</div>
                     </div>
+                    
                     <div class="vital-card">
                         <div class="vital-label">Weight</div>
                         <div class="vital-value" id="weight">75.5</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">kg</div>
+                        
+                        <!-- Weight Trend -->
+                        <div style="margin-top: 1rem; height: 60px; position: relative;">
+                            <svg width="100%" height="60">
+                                <defs>
+                                    <linearGradient id="weightGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#6366F1;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#6366F1;stop-opacity:0" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Trend line -->
+                                <polyline id="weightLine" fill="none" stroke="#6366F1" stroke-width="2" 
+                                    points="0,40 30,35 60,38 90,32 120,30 150,28 180,25" style="stroke-linecap: round;"/>
+                                <!-- Fill area -->
+                                <polygon fill="url(#weightGradient)" 
+                                    points="0,60 0,40 30,35 60,38 90,32 120,30 150,28 180,25 180,60"/>
+                                <!-- Data points -->
+                                <circle cx="0" cy="40" r="2" fill="#6366F1"/>
+                                <circle cx="30" cy="35" r="2" fill="#6366F1"/>
+                                <circle cx="60" cy="38" r="2" fill="#6366F1"/>
+                                <circle cx="90" cy="32" r="2" fill="#6366F1"/>
+                                <circle cx="120" cy="30" r="2" fill="#6366F1"/>
+                                <circle cx="150" cy="28" r="2" fill="#6366F1"/>
+                                <circle cx="180" cy="25" r="3" fill="#6366F1"/>
+                            </svg>
+                        </div>
+                        
                         <span class="vital-status status-normal">On Track</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: Today</div>
                     </div>
+                    
                     <div class="vital-card">
                         <div class="vital-label">Blood Glucose</div>
                         <div class="vital-value" id="glucose">95</div>
                         <div style="font-size: 0.85rem; color: var(--text-secondary);">mg/dL</div>
+                        
+                        <!-- Glucose Bar Chart -->
+                        <div style="margin-top: 1rem; height: 60px; display: flex; align-items: flex-end; justify-content: space-around; gap: 0.25rem;">
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 70%; border-radius: 4px 4px 0 0; opacity: 0.3;"></div>
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 55%; border-radius: 4px 4px 0 0; opacity: 0.4;"></div>
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 65%; border-radius: 4px 4px 0 0; opacity: 0.5;"></div>
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 50%; border-radius: 4px 4px 0 0; opacity: 0.6;"></div>
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 60%; border-radius: 4px 4px 0 0; opacity: 0.7;"></div>
+                            <div style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 75%; border-radius: 4px 4px 0 0; opacity: 0.9;"></div>
+                            <div id="glucoseBar" style="flex: 1; background: linear-gradient(to top, #10B981, #34D399); height: 80%; border-radius: 4px 4px 0 0; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"></div>
+                        </div>
+                        
                         <span class="vital-status status-normal">Normal</span>
                         <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary);">Last updated: 30 mins ago</div>
                     </div>
                 </div>
 
-                <h3 style="margin-top: 3rem; margin-bottom: 1.5rem; color: var(--primary); font-size: 1.5rem;">Log New Reading</h3>
+                <!-- Detailed Charts Section -->
+                <h3 style="margin-top: 3rem; margin-bottom: 1.5rem; color: var(--primary); font-size: 1.5rem;">7-Day Trends</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <!-- Heart Rate Trend -->
+                    <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-md);">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">❤️ Heart Rate Trend</h4>
+                        <svg width="100%" height="200" id="heartTrendChart">
+                            <defs>
+                                <linearGradient id="heartTrendGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#EF4444;stop-opacity:0.2" />
+                                    <stop offset="100%" style="stop-color:#EF4444;stop-opacity:0" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Grid lines -->
+                            <line x1="0" y1="40" x2="100%" y2="40" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="0" y1="80" x2="100%" y2="80" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="0" y1="120" x2="100%" y2="120" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="0" y1="160" x2="100%" y2="160" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <!-- Data line -->
+                            <polyline fill="url(#heartTrendGradient)" stroke="#EF4444" stroke-width="3" 
+                                points="0,200 0,120 50,110 100,125 150,105 200,115 250,100 300,108 350,95 350,200" 
+                                style="stroke-linecap: round; stroke-linejoin: round;"/>
+                            <polyline fill="none" stroke="#EF4444" stroke-width="3" 
+                                points="0,120 50,110 100,125 150,105 200,115 250,100 300,108 350,95" 
+                                style="stroke-linecap: round; stroke-linejoin: round;"/>
+                            <!-- Data points -->
+                            <circle cx="0" cy="120" r="4" fill="#EF4444"/>
+                            <circle cx="50" cy="110" r="4" fill="#EF4444"/>
+                            <circle cx="100" cy="125" r="4" fill="#EF4444"/>
+                            <circle cx="150" cy="105" r="4" fill="#EF4444"/>
+                            <circle cx="200" cy="115" r="4" fill="#EF4444"/>
+                            <circle cx="250" cy="100" r="4" fill="#EF4444"/>
+                            <circle cx="300" cy="108" r="4" fill="#EF4444"/>
+                            <circle cx="350" cy="95" r="5" fill="#EF4444" stroke="white" stroke-width="2"/>
+                        </svg>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+                    </div>
+
+                    <!-- Blood Pressure Trend -->
+                    <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-md);">
+                        <h4 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">🩺 Blood Pressure Trend</h4>
+                        <svg width="100%" height="200">
+                            <defs>
+                                <linearGradient id="bpSysGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#6366F1;stop-opacity:0.2" />
+                                    <stop offset="100%" style="stop-color:#6366F1;stop-opacity:0" />
+                                </linearGradient>
+                                <linearGradient id="bpDiaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.2" />
+                                    <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Grid -->
+                            <line x1="0" y1="50" x2="100%" y2="50" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="0" y1="100" x2="100%" y2="100" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="0" y1="150" x2="100%" y2="150" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="5,5"/>
+                            <!-- Systolic (top number) -->
+                            <polyline fill="url(#bpSysGradient)" stroke="#6366F1" stroke-width="2" 
+                                points="0,200 0,80 50,75 100,85 150,70 200,78 250,72 300,75 350,70 350,200"/>
+                            <polyline fill="none" stroke="#6366F1" stroke-width="2" 
+                                points="0,80 50,75 100,85 150,70 200,78 250,72 300,75 350,70"/>
+                            <!-- Diastolic (bottom number) -->
+                            <polyline fill="url(#bpDiaGradient)" stroke="#8B5CF6" stroke-width="2" 
+                                points="0,200 0,130 50,128 100,135 150,125 200,130 250,127 300,129 350,125 350,200"/>
+                            <polyline fill="none" stroke="#8B5CF6" stroke-width="2" 
+                                points="0,130 50,128 100,135 150,125 200,130 250,127 300,129 350,125"/>
+                        </svg>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+                        <div style="display: flex; gap: 2rem; margin-top: 1rem; font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 16px; height: 3px; background: #6366F1; border-radius: 2px;"></div>
+                                <span>Systolic</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 16px; height: 3px; background: #8B5CF6; border-radius: 2px;"></div>
+                                <span>Diastolic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary); font-size: 1.5rem;">Log New Reading</h3>
                 <form id="vitalsForm">
                     <div class="form-grid">
                         <div class="form-group">
@@ -1104,22 +571,22 @@
             </div>
         </div>
 
-        <!-- Health Assistant -->
+        <!-- Talk to Coco -->
         <div id="assistant" class="tab-content">
             <div class="section">
                 <div class="section-header">
-                    <h2 class="section-title">Your AI Health Assistant</h2>
+                    <h2 class="section-title">Your Personal Health Assistant</h2>
                     <span style="font-size: 0.9rem; color: var(--text-secondary);">24/7 Support</span>
                 </div>
                 
                 <p style="background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); padding: 1.25rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #6366F1;">
-                    💬 <strong>Your friendly health companion</strong> - Ask me about symptoms, medications, health tips, or book appointments. I'm here to help guide you to the right care!
+                    💬 <strong>Coco : Your friendly health companion</strong> - Ask me about symptoms, medications, health tips, or book appointments. I'm here to help guide you to the right care!
                 </p>
 
                 <div class="chat-container">
                     <div class="chat-messages" id="chatMessages">
                         <div class="message message-bot">
-                            Hello Rahul! 👋 I'm your AI Health Assistant. I'm here to help you with:
+                            Hello Rahul! 👋 I'm Coco your Personal Health Assistant. I'm here to help you with:
                             <ul style="margin: 0.75rem 0 0 1.25rem; line-height: 1.8;">
                                 <li>Understanding your symptoms</li>
                                 <li>Medication information and reminders</li>
@@ -1423,189 +890,6 @@
             </div>
         </div>
     </main>
-
-    <script>
-        // Tab Switching
-        function switchTab(tabName) {
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            contents.forEach(content => content.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-
-        // Profile Update
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const successMsg = document.getElementById('profileSuccess');
-            successMsg.classList.remove('hidden');
-            
-            setTimeout(() => {
-                successMsg.classList.add('hidden');
-            }, 3000);
-        });
-
-        // Appointment Booking
-        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const successMsg = document.getElementById('appointmentSuccess');
-            successMsg.classList.remove('hidden');
-            
-            setTimeout(() => {
-                this.reset();
-                successMsg.classList.add('hidden');
-            }, 3000);
-        });
-
-        function updateDoctorList() {
-            // Simulate doctor list update based on specialty
-            alert('Doctor list updated based on specialty selection');
-        }
-
-        // Live Vitals Simulation
-        let vitalsInterval;
-        function startVitalsMonitoring() {
-            vitalsInterval = setInterval(() => {
-                document.getElementById('heartRate').textContent = 70 + Math.floor(Math.random() * 10);
-                document.getElementById('oxygenSat').textContent = 96 + Math.floor(Math.random() * 4);
-            }, 3000);
-        }
-
-        // Vitals Logging
-        document.getElementById('vitalsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const successMsg = document.getElementById('vitalsSuccess');
-            successMsg.classList.remove('hidden');
-            
-            setTimeout(() => {
-                this.reset();
-                successMsg.classList.add('hidden');
-            }, 3000);
-        });
-
-        function viewVitalsHistory() {
-            alert('Opening your vitals history...');
-        }
-
-        // Start vitals monitoring on page load
-        startVitalsMonitoring();
-
-        // AI Health Assistant
-        const assistantResponses = [
-            "I understand. Can you tell me more about when these symptoms started?",
-            "Thank you for sharing that information. On a scale of 1-10, how would you rate the severity?",
-            "Based on what you've described, I recommend scheduling an appointment with a general physician. Would you like me to help you book one?",
-            "I've noted your symptoms in your health profile. For immediate concerns, you can also reach our 24/7 helpline. Would you like the number?",
-            "Is there anything else bothering you that I should know about?"
-        ];
-        let responseIndex = 0;
-
-        function sendTriageMessage() {
-            const input = document.getElementById('triageInput');
-            const messagesContainer = document.getElementById('chatMessages');
-            
-            if (input.value.trim() === '') return;
-            
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message message-user';
-            userMsg.textContent = input.value;
-            messagesContainer.appendChild(userMsg);
-            
-            input.value = '';
-            
-            // Simulate AI response
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message message-bot';
-                botMsg.textContent = assistantResponses[responseIndex % assistantResponses.length];
-                messagesContainer.appendChild(botMsg);
-                responseIndex++;
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 1000);
-            
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        document.getElementById('triageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendTriageMessage();
-            }
-        });
-
-        // OCR File Upload
-        const uploadArea = document.getElementById('uploadArea');
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.add('drag-over');
-            });
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadArea.addEventListener(eventName, () => {
-                uploadArea.classList.remove('drag-over');
-            });
-        });
-
-        uploadArea.addEventListener('drop', function(e) {
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        });
-
-        function handleFileUpload(event) {
-            const files = event.target.files;
-            handleFiles(files);
-        }
-
-        function handleFiles(files) {
-            if (files.length > 0) {
-                const file = files[0];
-                document.getElementById('fileName').textContent = file.name;
-                document.getElementById('fileSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
-                document.getElementById('filePreviewContainer').classList.remove('hidden');
-            }
-        }
-
-        function processOCR() {
-            const resultsDiv = document.getElementById('ocrResults');
-            resultsDiv.classList.add('hidden');
-            
-            // Simulate OCR processing
-            setTimeout(() => {
-                resultsDiv.classList.remove('hidden');
-                resultsDiv.scrollIntoView({ behavior: 'smooth' });
-            }, 2000);
-        }
-
-        // Update nav active state
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Set minimum date for appointment booking (today)
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('appointmentDate').setAttribute('min', today);
-        
-        // Set current datetime for vitals logging
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        document.getElementById('vitalDate').value = now.toISOString().slice(0, 16);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
