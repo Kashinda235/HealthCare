@@ -562,10 +562,10 @@ tr:hover {
     border-bottom-color: var(--accent);
 }
 
-.tab-content {
+/* .tab-content {
     display: none;
     animation: fadeIn 0.4s ease-out;
-}
+} */
 
 .tab-content.active {
     display: block;

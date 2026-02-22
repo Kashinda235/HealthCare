@@ -1,5 +1,3 @@
-import {useState} from 'react';
-
 const NavTab = ( {tabName, label, isActive, onSwitch} ) => {
     return (
         <li>
@@ -11,9 +9,7 @@ const NavTab = ( {tabName, label, isActive, onSwitch} ) => {
     );
 }
 
-const Header = () => {
-    const [activeTab, setActiveTab] = useState('dashboard');
-
+const Header = ( {activeTab, setActiveTab} ) => {
     const switchTo = (name) => {
         setActiveTab(name);
     }
