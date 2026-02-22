@@ -22,6 +22,7 @@ const Header = ( {activeTab, setActiveTab} ) => {
                 <NavTab tabName='appointments' label="My Appointments" isActive={activeTab === 'appointments'} onSwitch={switchTo}/>
                 <NavTab tabName='vitals' label="Health Tracker" isActive={activeTab === 'vitals'} onSwitch={switchTo}/>
                 <NavTab tabName='reports' label="My Reports" isActive={activeTab === 'reports'} onSwitch={switchTo}/>
+                <NavTab tabName='prescription' label="Prescription" isActive={activeTab === 'prescription'} onSwitch={switchTo}/>
                 <NavTab tabName='assistant' label="Talk to Coco" isActive={activeTab === 'assistant'} onSwitch={switchTo}/>
             </ul>
         </nav>

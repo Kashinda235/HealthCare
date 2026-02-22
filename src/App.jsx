@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Header from "./Components/Header"
-import Dashboard from "./Components/Dashboard"
-import Profile from "./Components/Profile"
-import Appointments from "./Components/Appointments"
-import HealthTracker from "./Components/HealthTracker"
+import Dashboard from "./Components/Profile/Dashboard"
+import Appointments from "./Components/Appointments/Appointments"
+import HealthTracker from "./Components/Vitals/HealthTracker"
 import CocoAI from "./Components/CocoAI"
-import Prescription from "./Components/Prescription"
+import Prescription from "./Components/Prescription/Prescription"
 import Reports from "./Components/Reports"
 
 
@@ -18,12 +17,11 @@ const App = () => {
         <Header activeTab={activeTab} setActiveTab={setActiveTab}/>
         <br></br>
         {activeTab === 'dashboard' && <Dashboard />}
-        {/* {activeTab === 'profile' && <Profile />} */}
-        {/* {activeTab === 'appointments' && <Appointments />} */}
-        {/* {activeTab === 'vitals' && <HealthTracker />} */}
+        {activeTab === 'appointments' && <Appointments />}
+        {activeTab === 'vitals' && <HealthTracker />}
         {activeTab === 'assistant' && <CocoAI />}
-        {/* {activeTab === 'prescription' && <Prescription />} */}
-        {/* {activeTab === 'reports' && <Reports />} */}
+        {activeTab === 'prescription' && <Prescription />}
+        {activeTab === 'reports' && <Reports />}
         </div>
     )
 }
